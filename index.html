@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en" data-theme="auto" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AppleCare Comparison — Is "AppleCare One" worth it?</title>
+    <meta name="description" content="Add your Apple devices and instantly compare individual AppleCare pricing vs a bundled 'AppleCare One' plan. Mobile-friendly, fast, and private." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            boxShadow: {
+              soft: '0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.08)'
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* Hide native number spinners for consistent styling */
+      input[type=number]::-webkit-outer-spin-button,
+      input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+      input[type=number] { -moz-appearance: textfield; }
+
+      /* Custom scrollbar for device dropdown (light + dark) */
+      #deviceDropdown { scrollbar-width: thin; scrollbar-color: #94a3b8 #ffffff; }
+      .dark #deviceDropdown { scrollbar-color: #475569 #0f172a; }
+      #deviceDropdown::-webkit-scrollbar { width: 10px; }
+      #deviceDropdown::-webkit-scrollbar-track { background: #ffffff; border-radius: 9999px; }
+      #deviceDropdown::-webkit-scrollbar-thumb { background-color: #94a3b8; border-radius: 9999px; border: 3px solid #ffffff; }
+      .dark #deviceDropdown::-webkit-scrollbar-track { background: #0f172a; }
+      .dark #deviceDropdown::-webkit-scrollbar-thumb { background-color: #64748b; border-color: #0f172a; }
+
+      /* Theme toggle micro-animation */
+      @keyframes theme-pop { 0% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.12) rotate(20deg); } 100% { transform: scale(1) rotate(0deg); } }
+      .theme-burst svg { animation: theme-pop 360ms ease; }
+    </style>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-900 antialiased dark:bg-slate-800 dark:text-slate-100">
+    <header class="mx-auto max-w-6xl px-6">
+      <div class="flex items-center justify-between gap-3 py-5">
+        <div class="flex items-center gap-2">
+          <span class="text-xl opacity-80" aria-hidden="true"></span>
+          <h1 class="text-xl font-semibold tracking-tight">AppleCare Calculator</h1>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="themeToggle" class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200/80 bg-white/70 text-slate-700 shadow-sm ring-1 ring-black/5 hover:bg-white dark:border-slate-600 dark:bg-slate-700/60 dark:text-slate-200 transition" aria-label="Toggle theme" title="Toggle light/dark">
+            <!-- Sun icon (light) -->
+            <svg id="iconSun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5 block dark:hidden" fill="currentColor" aria-hidden="true">
+              <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z"/>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <!-- Moon icon (dark) -->
+            <svg id="iconMoon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5 hidden dark:block" fill="currentColor" aria-hidden="true">
+              <path d="M21.64 13a9 9 0 1 1-10.63-10.6 7 7 0 1 0 10.63 10.6z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    
+
+    <main class="mx-auto grid max-w-6xl gap-4 px-6 py-4 md:grid-cols-2">
+      <section class="rounded-2xl border border-slate-200 bg-white p-4 shadow-soft dark:border-slate-800 dark:bg-slate-900">
+        <h2 class="m-0 text-lg font-semibold">Add your devices</h2>
+        <p class="text-sm text-slate-500">Search a device, set a quantity, and add it. You can add duplicates and edit later.</p>
+
+        <div class="mt-3 grid grid-cols-1 items-end gap-2 sm:grid-cols-[1fr_auto_auto]">
+          <div class="relative">
+            <label for="deviceSearch" class="mb-1 block text-xs font-medium text-slate-500">Device</label>
+            <input id="deviceSearch" placeholder="e.g., iPhone 16 Pro" autocomplete="off" class="w-full appearance-none rounded-xl border border-slate-300 bg-white/90 px-3 py-2 text-slate-900 outline-none ring-0 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:ring-blue-500/30" />
+            <div id="deviceDropdown" class="absolute left-0 z-50 mt-1 hidden max-h-72 w-full overflow-auto rounded-xl border border-slate-200 bg-white p-1 shadow-lg dark:border-slate-700 dark:bg-slate-800"></div>
+          </div>
+          <div class="w-28">
+            <label for="deviceQty" class="mb-1 block text-xs font-medium text-slate-500">Qty</label>
+            <input id="deviceQty" type="number" inputmode="numeric" min="1" value="1" class="w-full appearance-none rounded-xl border border-slate-300 bg-white/90 px-3 py-2 text-slate-900 outline-none ring-0 transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:ring-blue-500/30" />
+          </div>
+          <div>
+            <label class="mb-1 block text-xs font-medium text-transparent">Add</label>
+            <button id="addDeviceBtn" class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-4 py-2 text-white shadow hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600/40">Add</button>
+          </div>
+        </div>
+
+        <div class="mt-3 flex flex-wrap gap-2" id="quickAddChips" aria-label="Popular devices"></div>
+      </section>
+
+      <section class="rounded-2xl border border-slate-200 bg-white p-4 shadow-soft dark:border-slate-800 dark:bg-slate-900">
+        <h2 class="m-0 text-lg font-semibold">Your devices</h2>
+        <div id="emptyState" class="mt-2 rounded-xl border border-dashed border-slate-300 p-3 text-slate-500 dark:border-slate-700">
+          <p class="m-0">No devices yet. Add from above to start comparing.</p>
+        </div>
+        <div id="deviceList" class="mt-2 grid gap-2" hidden></div>
+      </section>
+
+      <section class="rounded-2xl border border-slate-200 bg-white p-4 shadow-soft dark:border-slate-800 dark:bg-slate-900 md:col-span-2">
+        <h2 class="m-0 text-lg font-semibold">Cost comparison</h2>
+        <div class="mt-3 grid gap-3 md:grid-cols-2">
+          <article class="rounded-xl border border-slate-200 bg-white/80 p-3 dark:border-slate-800 dark:bg-slate-800/60">
+            <h3 class="text-base font-semibold">Individual AppleCare</h3>
+            <dl class="grid grid-cols-2 gap-2">
+              <div>
+                <dt class="text-xs text-slate-500">Monthly total</dt>
+                <dd id="individualMonthly" class="m-0 text-xl font-bold">$0.00</dd>
+              </div>
+              <div>
+                <dt class="text-xs text-slate-500">Annual total</dt>
+                <dd id="individualAnnual" class="m-0 text-xl font-bold">$0.00</dd>
+              </div>
+            </dl>
+            <p class="mt-2 text-sm text-slate-500">Based on Apple’s published per‑device AppleCare pricing.</p>
+          </article>
+          <article class="rounded-xl border border-slate-200 bg-white/80 p-3 dark:border-slate-800 dark:bg-slate-800/60">
+            <h3 class="text-base font-semibold">"AppleCare One" bundle</h3>
+            <dl class="grid grid-cols-2 gap-2">
+              <div>
+                <dt class="text-xs text-slate-500">Monthly total</dt>
+                <dd id="bundleMonthly" class="m-0 text-xl font-bold">$0.00</dd>
+              </div>
+              <div>
+                <dt class="text-xs text-slate-500">Annual total</dt>
+                <dd id="bundleAnnual" class="m-0 text-xl font-bold">$0.00</dd>
+              </div>
+            </dl>
+            <p class="mt-2 text-sm text-slate-500">Up to 3 devices for $19.99/mo, each additional +$5.99/mo.</p>
+            <div class="text-sm text-slate-500" id="bundleDetails"></div>
+          </article>
+        </div>
+
+        <div class="mt-3 grid gap-2">
+          <div class="hidden rounded-lg border-l-4 border-green-500 bg-green-50 p-3 text-green-800 dark:bg-green-950/30 dark:text-green-200" id="savingsCallout">
+            <strong id="savingsHeadline"></strong>
+            <div class="text-sm" id="savingsDetail"></div>
+          </div>
+          <div class="rounded-lg border-l-4 border-blue-500 bg-blue-50 p-3 text-blue-900 dark:bg-blue-950/30 dark:text-blue-200">
+            <strong>Why annual can be lower</strong>
+            <div class="text-sm">Apple often discounts prepaid AppleCare plans compared to paying month‑to‑month. Annual totals shown here reflect Apple’s published prepaid pricing where available (and for some devices, multi‑year plans are normalized to a per‑year equivalent), so they may be lower than 12 × the monthly amount.</div>
+          </div>
+          <div class="rounded-lg border-l-4 border-blue-500 bg-blue-50 p-3 text-blue-900 dark:bg-blue-950/30 dark:text-blue-200">
+            <strong>Includes theft & loss?</strong>
+            <div class="text-sm">For iPhone, iPad, and Apple Watch, the bundle comparison assumes theft & loss is included where applicable. Confirm details on Apple’s site, as coverage and deductibles can vary.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="mx-auto max-w-6xl px-6 pb-12">
+      <div class="mt-8 border-t border-slate-200 pt-4 text-center text-xs text-slate-500 dark:border-slate-600">
+        This tool is for estimation only. AppleCare and AppleCare+ are trademarks of Apple Inc. Please verify pricing and coverage on Apple’s official site; details can change.
+      </div>
+      <div class="mt-3 flex flex-col items-center justify-center gap-3 text-center text-sm text-slate-500 md:flex-row md:justify-between">
+        <div>© 2025</div>
+        <div class="flex items-center gap-4">
+          <a href="https://www.linkedin.com/in/drew-levinson/" target="_blank" rel="noopener" class="inline-flex items-center gap-1 hover:text-blue-600" aria-label="LinkedIn" title="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM3 8.98h3.96V21H3V8.98Zm7.48 0H15v1.66h.06c.53-.95 1.82-1.95 3.75-1.95 4.01 0 4.75 2.64 4.75 6.07V21h-3.96v-5.32c0-1.27-.02-2.9-1.77-2.9-1.78 0-2.05 1.38-2.05 2.8V21H10.5V8.98Z"/></svg>
+            <span class="sr-only">LinkedIn</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="assets/devices.js"></script>
+    <script type="module" src="assets/app.js"></script>
+  </body>
+  </html>
+
+
