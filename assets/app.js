@@ -146,7 +146,8 @@ function renderList(items) {
     const dev = DEVICE_CATALOG.find(d => d.id === item.id);
     if (!dev) continue;
     const row = document.createElement('div');
-    row.className = 'grid grid-cols-[1fr_auto_auto_auto] items-center gap-2 rounded-xl border border-slate-200 bg-white/80 p-3 dark:border-slate-800 dark:bg-slate-800/60';
+    // On small screens stack vertically; from sm and up use the 4-column layout
+    row.className = 'grid w-full grid-cols-1 gap-3 rounded-xl border border-slate-200 bg-white/80 p-3 dark:border-slate-800 dark:bg-slate-800/60 sm:grid-cols-[1fr_auto_auto_auto] sm:items-center';
 
     const name = document.createElement('div');
     name.className = 'font-semibold';
@@ -157,7 +158,8 @@ function renderList(items) {
     meta.textContent = `${dev.category} • ${currency(dev.monthly)}/mo • ${currency(dev.annual)}/yr`;
 
     const qty = document.createElement('div');
-    qty.className = 'inline-flex items-center gap-2';
+    // Keep controls left on mobile, right-align them only on wider screens
+    qty.className = 'inline-flex items-center gap-2 sm:justify-self-end';
     const minus = document.createElement('button');
     minus.className = 'inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100';
     minus.type = 'button';
@@ -174,7 +176,7 @@ function renderList(items) {
     qty.append(minus, count, plus);
 
     const del = document.createElement('button');
-    del.className = 'inline-flex items-center justify-center rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-red-700 hover:bg-red-100 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200';
+    del.className = 'inline-flex items-center justify-center rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-red-700 hover:bg-red-100 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200 sm:justify-self-end';
     del.type = 'button';
     del.textContent = 'Remove';
     del.addEventListener('click', () => removeDevice(item.id));
