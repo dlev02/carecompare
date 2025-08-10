@@ -1,6 +1,6 @@
 {
-  "name": "AppleCare Calc",
-  "short_name": "AppleCare",
+  "name": "AC Calc",
+  "short_name": "AC Calc",
   "description": "Compare AppleCare+ vs 'AppleCare One' bundle costs for your devices.",
   "icons": [
     {
@@ -28,8 +28,8 @@
       "purpose": "maskable"
     }
   ],
-  "start_url": ".",
-  "scope": ".",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0a84ff",
   "theme_color": "#0a84ff"
