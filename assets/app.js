@@ -36,7 +36,7 @@ function init() {
     const dev = DEVICE_CATALOG.find(d => d.id === id);
     if (!dev) continue;
     const chip = document.createElement('button');
-    chip.className = 'px-3 py-1.5 rounded-full border border-slate-300 bg-white/70 text-sm hover:border-blue-400 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600/40 motion-safe:transition-transform motion-safe:duration-150 motion-safe:ease-out motion-safe:hover:-translate-y-0.5 active:scale-95 dark:border-slate-700 dark:bg-slate-800/50';
+    chip.className = 'px-3 py-1.5 rounded-full border border-slate-300 bg-white/70 text-sm hover:border-blue-400 dark:hover:border-blue-400 hover:ring-1 hover:ring-blue-300/40 dark:hover:ring-1 dark:hover:ring-blue-400/40 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600/40 motion-safe:transition-transform motion-safe:duration-150 motion-safe:ease-out motion-safe:hover:-translate-y-0.5 active:scale-95 dark:border-slate-700 dark:bg-slate-800/50';
     chip.type = 'button';
     chip.textContent = dev.name;
     chip.addEventListener('click', () => addDevice(dev, 1));
@@ -161,7 +161,7 @@ function renderList(items) {
     // Keep controls left on mobile, right-align them only on wider screens
     qty.className = 'inline-flex items-center gap-2 sm:justify-self-end';
     const minus = document.createElement('button');
-    minus.className = 'inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100';
+    minus.className = 'inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600/40 motion-safe:transition-transform motion-safe:duration-150 motion-safe:ease-out motion-safe:hover:-translate-y-0.5 active:scale-95 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100';
     minus.type = 'button';
     minus.textContent = '−';
     minus.addEventListener('click', () => changeQty(item.id, -1));
@@ -169,14 +169,14 @@ function renderList(items) {
     count.className = 'min-w-[1.5rem] text-center';
     count.textContent = String(item.qty);
     const plus = document.createElement('button');
-    plus.className = 'inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100';
+    plus.className = 'inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600/40 motion-safe:transition-transform motion-safe:duration-150 motion-safe:ease-out motion-safe:hover:-translate-y-0.5 active:scale-95 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100';
     plus.type = 'button';
     plus.textContent = '+';
     plus.addEventListener('click', () => changeQty(item.id, +1));
     qty.append(minus, count, plus);
 
     const del = document.createElement('button');
-    del.className = 'inline-flex items-center justify-center rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-red-700 hover:bg-red-100 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200 sm:justify-self-end';
+    del.className = 'inline-flex items-center justify-center rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-red-700 hover:bg-red-100 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-red-300 dark:focus:ring-red-700/40 motion-safe:transition-transform motion-safe:duration-150 motion-safe:ease-out motion-safe:hover:-translate-y-0.5 active:scale-95 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200 sm:justify-self-end';
     del.type = 'button';
     del.textContent = 'Remove';
     del.addEventListener('click', () => removeDevice(item.id));
