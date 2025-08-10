@@ -36,7 +36,7 @@ function init() {
     const dev = DEVICE_CATALOG.find(d => d.id === id);
     if (!dev) continue;
     const chip = document.createElement('button');
-    chip.className = 'px-3 py-1.5 rounded-full border border-slate-300 bg-white/70 text-sm hover:border-blue-400 transition dark:border-slate-700 dark:bg-slate-800/50';
+    chip.className = 'px-3 py-1.5 rounded-full border border-slate-300 bg-white/70 text-sm hover:border-blue-400 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600/40 motion-safe:transition-transform motion-safe:duration-150 motion-safe:ease-out motion-safe:hover:-translate-y-0.5 active:scale-95 dark:border-slate-700 dark:bg-slate-800/50';
     chip.type = 'button';
     chip.textContent = dev.name;
     chip.addEventListener('click', () => addDevice(dev, 1));
